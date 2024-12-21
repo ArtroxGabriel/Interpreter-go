@@ -1,10 +1,11 @@
-package parser
+package parser_test
 
 import (
 	"testing"
 
 	"github.com/ArtroxGabriel/interpreter/ast"
 	"github.com/ArtroxGabriel/interpreter/lexer"
+	"github.com/ArtroxGabriel/interpreter/parser"
 )
 
 func TestLetStatement(t *testing.T) {
@@ -16,7 +17,7 @@ let foobar = 838383;
     `
 
 	l := lexer.New(input)
-	p := New(l)
+	p := parser.New(l)
 
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
@@ -86,7 +87,7 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	return true
 }
 
-func checkParserErrors(t *testing.T, p *Parser) {
+func checkParserErrors(t *testing.T, p *parser.Parser) {
 	errors := p.Errors()
 	if len(errors) == 0 {
 		return
@@ -107,7 +108,7 @@ func TestReturnStatement(t *testing.T) {
     `
 
 	l := lexer.New(input)
-	p := New(l)
+	p := parser.New(l)
 
 	program := p.ParseProgram()
 	checkParserErrors(t, p)

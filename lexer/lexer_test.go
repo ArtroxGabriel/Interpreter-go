@@ -1,8 +1,9 @@
-package lexer
+package lexer_test
 
 import (
 	"testing"
 
+	"github.com/ArtroxGabriel/interpreter/lexer"
 	"github.com/ArtroxGabriel/interpreter/token"
 )
 
@@ -117,7 +118,7 @@ func TestNextToken(t *testing.T) {
 		{token.EOF, ""},
 	}
 
-	l := New(input)
+	l := lexer.New(input)
 
 	for i, tt := range tests {
 		tok := l.NextToken()
