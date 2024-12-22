@@ -28,9 +28,9 @@ func TestString(t *testing.T) {
 			Statements: []ast.Statement{
 				&ast.ReturnStatement{
 					Token: token.Token{Type: token.RETURN, Literal: "return"},
-					ReturnValue: &ast.Identifier{
+					ReturnValue: &ast.IntegerLiteral{
 						Token: token.Token{Type: token.INT, Literal: "10"},
-						Value: "10",
+						Value: 10,
 					},
 				},
 			},
