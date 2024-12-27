@@ -40,6 +40,11 @@ func TestLetStatement(t *testing.T) {
 		if !testLetStatement(t, stmt, tt.expectedIdentifier) {
 			return
 		}
+
+		val := stmt.(*ast.LetStatement).Value
+		if !testLiteralExpression(t, val, tt.expectedValue) {
+			return
+		}
 	}
 }
 
@@ -75,6 +80,11 @@ func TestReturnStatement(t *testing.T) {
 		if returnStmt.TokenLiteral() != "return" {
 			t.Fatalf("returnStmt.TokenLiteral not 'return', got=%q",
 				returnStmt.TokenLiteral())
+		}
+
+		val := returnStmt.ReturnValue
+		if !testLiteralExpression(t, val, tt.expectedValue) {
+			return
 		}
 	}
 }
