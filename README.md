@@ -5,7 +5,7 @@
 ## Milestones
 
 - [x] Lexer
-- [ ] Parser
-- [ ] Abstract Syntax Tree
+- [x] Parser
+- [x] Abstract Syntax Tree
 - [ ] Internal Object System
 - [ ] Evaluator
