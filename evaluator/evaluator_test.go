@@ -51,6 +51,43 @@ func TestEvalBooleanExpression(t *testing.T) {
 	}
 }
 
+func TestBangOperator(t *testing.T) {
+	testCases := []struct {
+		input    string
+		expected bool
+	}{
+		{
+			input:    "!true",
+			expected: false,
+		},
+		{
+			input:    "!false",
+			expected: true,
+		},
+		{
+			input:    "!5",
+			expected: false,
+		},
+		{
+			input:    "!!true",
+			expected: true,
+		},
+		{
+			input:    "!!false",
+			expected: false,
+		},
+		{
+			input:    "!!5",
+			expected: true,
+		},
+	}
+
+	for _, tt := range testCases {
+		evaluated := testEval(tt.input)
+		testBooleanObject(t, evaluated, tt.expected)
+	}
+}
+
 func testIntegerObject(t *testing.T, obj object.Object, expected int64) {
 	result, ok := obj.(*object.Integer)
 	if !ok {
