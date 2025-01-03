@@ -26,6 +26,10 @@ func Eval(node ast.Node) object.Object {
 	case *ast.Boolean:
 		return nativeBoolToBooleanObject(node.Value)
 
+	case *ast.PrefixExpression:
+		right := Eval(node.Right)
+		return evalPrefixExpression(node.Operator, right)
+
 	case *ast.BlockStatement:
 	case *ast.CallExpression:
 	case *ast.FunctionalLiteral:
@@ -33,10 +37,31 @@ func Eval(node ast.Node) object.Object {
 	case *ast.IfExpression:
 	case *ast.InfixExpression:
 	case *ast.LetStatement:
-	case *ast.PrefixExpression:
 	case *ast.ReturnStatement:
 	}
 	return nil
+}
+
+func evalPrefixExpression(operator string, right object.Object) object.Object {
+	switch operator {
+	case "!":
+		return evalBangOperatorExpression(right)
+	default:
+		return NULL
+	}
+}
+
+func evalBangOperatorExpression(right object.Object) *object.Boolean {
+	switch right {
+	case TRUE:
+		return FALSE
+	case FALSE:
+		return TRUE
+	case NULL:
+		return TRUE
+	default:
+		return FALSE
+	}
 }
 
 func evalStatements(stmts []ast.Statement) object.Object {
