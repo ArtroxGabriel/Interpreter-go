@@ -134,6 +134,39 @@ func TestBangOperator(t *testing.T) {
 	}
 }
 
+func TestReturnStatement(t *testing.T) {
+	testCases := []struct {
+		input    string
+		expected int64
+	}{
+		{"return 10", 10},
+		{"return 10; 9", 10},
+		{"return 2 * 5; 9", 10},
+		{"2; return 2 * 5; 9", 10},
+		{
+			`
+            if (10 > 1) {
+                if (10 > 1) {
+                    return 10;
+                }
+                return 1;
+            }
+            `,
+			10,
+		},
+	}
+	for _, tt := range testCases {
+		evaluated := testEval(tt.input)
+		testIntegerObject(t, evaluated, tt.expected)
+	}
+}
+
+func testNullObject(t *testing.T, obj object.Object) {
+	if obj != evaluator.NULL {
+		t.Errorf("Object is not NULL. got=%T (%+v)", obj, obj)
+	}
+}
+
 func testIntegerObject(t *testing.T, obj object.Object, expected int64) {
 	result, ok := obj.(*object.Integer)
 	if !ok {
