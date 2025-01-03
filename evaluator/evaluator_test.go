@@ -91,12 +91,6 @@ func TestIfElseExpression(t *testing.T) {
 	}
 }
 
-func testNullObject(t *testing.T, obj object.Object) {
-	if obj != evaluator.NULL {
-		t.Errorf("Object is not NULL. got=%T (%+v)", obj, obj)
-	}
-}
-
 func TestBangOperator(t *testing.T) {
 	testCases := []struct {
 		input    string
