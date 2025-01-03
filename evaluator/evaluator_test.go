@@ -38,7 +38,6 @@ func TestEvalIntegerExpression(t *testing.T) {
 
 func TestEvalBooleanExpression(t *testing.T) {
 	testCases := []struct {
-		desc     string
 		input    string
 		expected bool
 	}{
