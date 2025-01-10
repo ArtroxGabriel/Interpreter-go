@@ -267,6 +267,7 @@ func testEval(s string) object.Object {
 	l := lexer.New(s)
 	p := parser.New(l)
 	program := p.ParseProgram()
+	env := object.NewEnvironment()
 
-	return evaluator.Eval(program)
+	return evaluator.Eval(program, env)
 }
