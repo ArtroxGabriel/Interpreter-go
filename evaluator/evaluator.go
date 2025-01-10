@@ -27,11 +27,31 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.ExpressionStatement:
 		return Eval(node.Expression, env)
 
+	case *ast.BlockStatement:
+		return evalBlockStatements(node, env)
+
+	case *ast.LetStatement:
+		val := Eval(node.Value, env)
+		if isError(val) {
+			return val
+		}
+		env.Set(node.Name.Value, val)
+
+	case *ast.ReturnStatement:
+		val := Eval(node.ReturnValue, env)
+		if isError(val) {
+			return val
+		}
+		return &object.ReturnValue{Value: val}
+
 	case *ast.IntegerLiteral:
 		return &object.Integer{Value: node.Value}
 
 	case *ast.Boolean:
 		return nativeBoolToBooleanObject(node.Value)
+
+	case *ast.Identifier:
+		return evalIdentifier(node, env)
 
 	case *ast.PrefixExpression:
 		right := Eval(node.Right, env)
@@ -54,28 +74,13 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 		return evalInfixExpression(node.Operator, left, right)
 
-	case *ast.BlockStatement:
-		return evalBlockStatements(node, env)
-
 	case *ast.IfExpression:
 		return evalIfExpression(node, env)
 
-	case *ast.ReturnStatement:
-		val := Eval(node.ReturnValue, env)
-		if isError(val) {
-			return val
-		}
-		return &object.ReturnValue{Value: val}
-
-	case *ast.LetStatement:
-		val := Eval(node.Value, env)
-		if isError(val) {
-			return val
-		}
-		env.Set(node.Name.Value, val)
-
-	case *ast.Identifier:
-		return evalIdentifier(node, env)
+	case *ast.FunctionalLiteral:
+		params := node.Parameters
+		body := node.Body
+		return &object.Function{Parameters: params, Body: body, Env: env}
 
 	case *ast.CallExpression:
 	case *ast.FunctionalLiteral:
