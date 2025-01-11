@@ -26,8 +26,8 @@ func TestNextToken(t *testing.T) {
 
     10 == 10;
     10 != 9;
-    "foobar";
-    "foo bar";
+    "foobar"
+    "foo bar"
     `
 
 	tests := []struct {
