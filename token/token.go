@@ -8,33 +8,39 @@ type Token struct {
 }
 
 const (
-	ILLEGAL   TokenType = "ILLEGAL"
-	EOF       TokenType = "EOF"
-	IDENT     TokenType = "IDENT"
-	INT       TokenType = "INT"
-	TRUE      TokenType = "TRUE"
-	FALSE     TokenType = "FALSE"
-	IF        TokenType = "IF"
-	ELSE      TokenType = "ELSE"
-	RETURN    TokenType = "RETURN"
-	ASSIGN    TokenType = "="
-	EQ        TokenType = "=="
-	NOT_EQ    TokenType = "!="
-	PLUS      TokenType = "+"
-	MINUS     TokenType = "-"
-	TIMES     TokenType = "*"
-	SLASH     TokenType = "/"
-	BANG      TokenType = "!"
-	LT        TokenType = "<"
-	GT        TokenType = ">"
+	ILLEGAL TokenType = "ILLEGAL"
+	EOF     TokenType = "EOF"
+
+	IDENT TokenType = "IDENT"
+	INT   TokenType = "INT"
+
+	TRUE  TokenType = "TRUE"
+	FALSE TokenType = "FALSE"
+
+	IF     TokenType = "IF"
+	ELSE   TokenType = "ELSE"
+	RETURN TokenType = "RETURN"
+
+	ASSIGN TokenType = "="
+	EQ     TokenType = "=="
+	NOT_EQ TokenType = "!="
+	PLUS   TokenType = "+"
+	MINUS  TokenType = "-"
+	TIMES  TokenType = "*"
+	SLASH  TokenType = "/"
+	BANG   TokenType = "!"
+	LT     TokenType = "<"
+	GT     TokenType = ">"
+
 	COMMA     TokenType = "COMMA"
 	SEMICOLON TokenType = "SEMICOLON"
 	LPAREN    TokenType = "("
 	RPAREN    TokenType = ")"
 	LBRACE    TokenType = "{"
 	RBRACE    TokenType = "}"
-	FUNCTION  TokenType = "FUNCTION"
-	LET       TokenType = "LET"
+
+	FUNCTION TokenType = "FUNCTION"
+	LET      TokenType = "LET"
 )
 
 var keywords = map[string]TokenType{
