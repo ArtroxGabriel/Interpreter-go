@@ -39,6 +39,8 @@ const (
 	RPAREN    TokenType = ")"
 	LBRACE    TokenType = "{"
 	RBRACE    TokenType = "}"
+	LBRACKET  TokenType = "["
+	RBRACKET  TokenType = "]"
 
 	FUNCTION TokenType = "FUNCTION"
 	LET      TokenType = "LET"
