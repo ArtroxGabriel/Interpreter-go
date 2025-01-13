@@ -163,53 +163,6 @@ func TestIntegerLiteralExpression(t *testing.T) {
 	}
 }
 
-func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
-	if s.TokenLiteral() != "let" {
-		t.Errorf(
-			"s.TokenLiteral() not 'let'. got=%s",
-			s.TokenLiteral())
-	}
-
-	letStmt, ok := s.(*ast.LetStatement)
-	if !ok {
-		t.Errorf(
-			"s not *ast.LetStatement. got=%T",
-			s)
-		return false
-	}
-
-	if letStmt.Name.Value != name {
-		t.Errorf(
-			"letStmt.Name.Value not %s. got=%s",
-			name,
-			letStmt.Name.Value)
-		return false
-	}
-
-	if letStmt.Name.TokenLiteral() != name {
-		t.Errorf(
-			"letStmt.TokenLiteral() not %s. got=%s",
-			name,
-			letStmt.TokenLiteral())
-		return false
-	}
-
-	return true
-}
-
-func checkParserErrors(t *testing.T, p *parser.Parser) {
-	errors := p.Errors()
-	if len(errors) == 0 {
-		return
-	}
-
-	t.Errorf("parser has %d erros", len(errors))
-	for _, msg := range errors {
-		t.Errorf("parser error: %s", msg)
-	}
-	t.FailNow()
-}
-
 func TestParsingPrefixExpressions(t *testing.T) {
 	prefixTest := []struct {
 		input    string
@@ -768,6 +721,77 @@ func TestStringLiteral(t *testing.T) {
 	if literal.Value != "hello world" {
 		t.Fatalf("literal.Value not %q. got=%q", "hello world", literal.Value)
 	}
+}
+
+func TestArrayLiteral(t *testing.T) {
+	input := "[1, 2 * 2, 3 + 3]"
+
+	l := lexer.New(input)
+	p := parser.New(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+
+	stmt := program.Statements[0].(*ast.ExpressionStatement)
+	array, ok := stmt.Expression.(*ast.ArrayLiteral)
+	if !ok {
+		t.Fatalf("exp not ast.ArrayLiteral. got=%T", stmt)
+	}
+
+	if len(array.Elements) != 3 {
+		t.Fatalf("len(array.Elements) not 3. got=%d",
+			len(array.Elements))
+	}
+
+	testIntegerLiteral(t, array.Elements[0], 1)
+	testInfixExpression(t, array.Elements[1], 2, "*", 2)
+	testInfixExpression(t, array.Elements[2], 3, "+", 3)
+}
+
+func checkParserErrors(t *testing.T, p *parser.Parser) {
+	errors := p.Errors()
+	if len(errors) == 0 {
+		return
+	}
+
+	t.Errorf("parser has %d erros", len(errors))
+	for _, msg := range errors {
+		t.Errorf("parser error: %s", msg)
+	}
+	t.FailNow()
+}
+
+func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
+	if s.TokenLiteral() != "let" {
+		t.Errorf(
+			"s.TokenLiteral() not 'let'. got=%s",
+			s.TokenLiteral())
+	}
+
+	letStmt, ok := s.(*ast.LetStatement)
+	if !ok {
+		t.Errorf(
+			"s not *ast.LetStatement. got=%T",
+			s)
+		return false
+	}
+
+	if letStmt.Name.Value != name {
+		t.Errorf(
+			"letStmt.Name.Value not %s. got=%s",
+			name,
+			letStmt.Name.Value)
+		return false
+	}
+
+	if letStmt.Name.TokenLiteral() != name {
+		t.Errorf(
+			"letStmt.TokenLiteral() not %s. got=%s",
+			name,
+			letStmt.TokenLiteral())
+		return false
+	}
+
+	return true
 }
 
 func testIntegerLiteral(t *testing.T, il ast.Expression, value int64) bool {
