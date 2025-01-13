@@ -33,8 +33,9 @@ const (
 	LT     TokenType = "<"
 	GT     TokenType = ">"
 
-	COMMA     TokenType = "COMMA"
-	SEMICOLON TokenType = "SEMICOLON"
+	COMMA     TokenType = ","
+	SEMICOLON TokenType = ";"
+	COLON     TokenType = ":"
 	LPAREN    TokenType = "("
 	RPAREN    TokenType = ")"
 	LBRACE    TokenType = "{"
